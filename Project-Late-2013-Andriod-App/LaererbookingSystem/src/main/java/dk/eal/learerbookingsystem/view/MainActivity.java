@@ -1,8 +1,10 @@
-package dk.eal.learerbookingsystem;
+package dk.eal.learerbookingsystem.view;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+
+import dk.eal.learerbookingsystem.R;
 
 public class MainActivity extends Activity {
 
