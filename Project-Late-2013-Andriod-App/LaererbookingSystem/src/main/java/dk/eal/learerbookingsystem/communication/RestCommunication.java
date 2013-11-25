@@ -2,11 +2,13 @@ package dk.eal.learerbookingsystem.communication;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
@@ -16,18 +18,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by Trine on 21-11-13.
  */
 public class RestCommunication implements ICommunication {
-    private final String
-            baseURL = "http://localhost:14781/api",
-            itemURL = "item";
+    public static final String
+        //BASE_URL = "http://92.243.227.143/api/",
+        BASE_URL = "http://localhost:14781/api";
 
-    public RestCommunication() {
-
-    }
+    public RestCommunication() { }
 
     @Override
     public String readStream(InputStream in) {
