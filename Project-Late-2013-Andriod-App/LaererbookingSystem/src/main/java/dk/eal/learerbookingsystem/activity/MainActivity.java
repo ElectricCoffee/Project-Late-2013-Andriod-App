@@ -14,8 +14,14 @@ public class MainActivity extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent loginIntent = new Intent(this, LoginActivity.class);
-        startActivity(loginIntent);
+        if (true) {
+            Intent bookingIntent = new Intent(this, NewBookingActivity.class);
+            startActivity(bookingIntent);
+        }
+        else {
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            startActivity(loginIntent);
+        }
     }
 
 

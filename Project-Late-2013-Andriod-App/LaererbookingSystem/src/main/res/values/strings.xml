@@ -21,4 +21,13 @@
     <string name="textview_text_email">Email</string>
     <string name="textview_text_repeat_password">Gentag Adgangskode</string>
 
+    <!-- booking -->
+    <string name="title_activity_booking">BookingActivity</string>
+
+    <!-- newBooking -->
+    <string name="title_activity_booking_new">NewBookingActivity</string>
+    <string name="button_text_create">Opret</string>
+    <string name="textview_text_comments">Indtast kommentar</string>
+
+
 </resources>
