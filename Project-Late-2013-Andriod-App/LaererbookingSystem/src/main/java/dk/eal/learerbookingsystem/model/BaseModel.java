@@ -1,22 +1,19 @@
 package dk.eal.learerbookingsystem.model;
 
-import dk.eal.learerbookingsystem.controller.BaseController;
+import dk.eal.learerbookingsystem.activity.BaseActivity;
 
 /**
  * Created by Trine on 25-11-13.
  */
-public class BaseModel <TController extends BaseController> {
+public class BaseModel <TController extends BaseActivity> {
+    private static BaseModel _instance;
     protected TController _controller;
 
     public BaseModel() { }
 
-    public BaseModel(TController controller, Class<TController> cls) {
-        try {
-            _controller = cls.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+    public static BaseModel getInstance() {
+        if (_instance == null)
+            _instance = new BaseModel();
+        return _instance;
     }
 }

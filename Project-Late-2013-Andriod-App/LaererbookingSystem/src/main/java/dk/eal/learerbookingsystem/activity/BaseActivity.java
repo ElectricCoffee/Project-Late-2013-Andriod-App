@@ -1,5 +1,6 @@
-package dk.eal.learerbookingsystem.controller;
+package dk.eal.learerbookingsystem.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,44 +14,40 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.eal.learerbookingsystem.Sevice.ServerService;
-import dk.eal.learerbookingsystem.Utils.IServerInteraction;
-import dk.eal.learerbookingsystem.Utils.JsonSerializer;
+import dk.eal.learerbookingsystem.service.ServerService;
+import dk.eal.learerbookingsystem.utils.IServerInteraction;
+import dk.eal.learerbookingsystem.utils.JsonSerializer;
 import dk.eal.learerbookingsystem.model.BaseModel;
-import dk.eal.learerbookingsystem.view.BaseView;
-import dk.eal.learerbookingsystem.view.LoginView;
+import dk.eal.learerbookingsystem.view.IView;
 
 /**
- * Created by Trine on 25-11-13.
+ * Created by Trine on 26-11-13.
  */
-public abstract class BaseController<TView extends BaseView, TModel extends BaseModel> {
+public class BaseActivity <TView extends IView, TModel extends BaseModel> extends Activity {
     public static final String
-            EXTRA_TARGET_CLASS = "extra_target",
-            EXTRA_URL_ITEM = "extra_url_item",
-            EXTRA_URL_ID = "extra_url_id",
-            EXTRA_URL_PARAMS = "extra_url_params",
-            EXTRA_JSON_DATA = "extra_data",
-            EXTRA_HTTP_ACTION = "extra_http_action";
+        TAG = BaseActivity.class.getSimpleName(),
+        EXTRA_TARGET_CLASS = "extra_target",
+        EXTRA_URL_ITEM = "extra_url_item",
+        EXTRA_URL_ID = "extra_url_id",
+        EXTRA_URL_PARAMS = "extra_url_params",
+        EXTRA_JSON_DATA = "extra_data",
+        EXTRA_HTTP_ACTION = "extra_http_action";
 
     protected Context _context;
     protected TView _view;
     protected List<TModel> _items;
     protected IServerInteraction<TModel> _callback;
 
-    public BaseController() { }
-
-    public BaseController(Context context, Class<TView> cls) {
-        _context = context;
-
-        Intent intent = new Intent(_context, cls);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        _context.startActivity(intent);
-        //_view.setController(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        startReceiver();
     }
 
-    public BaseController(Context context, IServerInteraction callback, Class<TView> cls) {
-        this(context, cls);
-        _callback = callback;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopReceiver();
     }
 
     protected BroadcastReceiver _httpReceiver = new BroadcastReceiver() {
@@ -61,29 +58,33 @@ public abstract class BaseController<TView extends BaseView, TModel extends Base
     };
 
     protected void startReceiver() {
-        LocalBroadcastManager.getInstance(_view)
+        LocalBroadcastManager.getInstance(this)
             .registerReceiver(_httpReceiver, new IntentFilter(ServerService.ACTION_REQUEST_PROCESSED));
+        Log.d(TAG, "receiver started");
     }
 
     protected void handleMessage(Intent mgs) {
+        Log.d(TAG, "message received");
+
         _items = new ArrayList<TModel>();
         Bundle data = mgs.getExtras();
 
         String target = data.getString(EXTRA_TARGET_CLASS);
-        if(!target.equals(_view.getLocalClassName()))
+        if(!target.equals(this.getLocalClassName()))
             _callback.serverResult(_items);
 
         if(data.containsKey(ServerService.EXTRA_ERROR)) {
             String error = data.getString(ServerService.EXTRA_ERROR);
-            Toast.makeText(_view,error,Toast.LENGTH_LONG).show();
+            Log.e(TAG, "message error: " + error);
+            Toast.makeText(this, error, Toast.LENGTH_LONG).show();
             _callback.serverResult(_items);
         }
 
         String action = data.getString(EXTRA_HTTP_ACTION);
         if(action.equals(ServerService.ACTION_HTTP_GET)) {
             String json = data.getString(EXTRA_JSON_DATA);
-            Log.d(BaseController.class.getName(), json);
-                    Class < TModel[]> cls =
+            Log.d(TAG, "message data: " + json);
+            Class <TModel[]> cls =
                 (Class<TModel[]>) ((ParameterizedType) getClass().getGenericSuperclass())
                     .getActualTypeArguments()[1];
             _items = JsonSerializer.DeSerializeList(json, cls);
@@ -91,12 +92,12 @@ public abstract class BaseController<TView extends BaseView, TModel extends Base
     }
 
     protected void stopReceiver() {
-        LocalBroadcastManager.getInstance(_view).unregisterReceiver(_httpReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(_httpReceiver);
     }
 
-    protected Intent makeIntent() {
-        Intent intent = new Intent(_view, ServerService.class);
-        intent.putExtra(EXTRA_TARGET_CLASS, _view.getLocalClassName());
+    protected Intent makeRequestIntent() {
+        Intent intent = new Intent(this, ServerService.class);
+        intent.putExtra(EXTRA_TARGET_CLASS, this.getLocalClassName());
         return intent;
     }
 }

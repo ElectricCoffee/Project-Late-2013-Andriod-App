@@ -1,4 +1,4 @@
-package dk.eal.learerbookingsystem.view;
+package dk.eal.learerbookingsystem.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 
 import dk.eal.learerbookingsystem.R;
+import dk.eal.learerbookingsystem.view.LoginView;
 
 public class MainActivity extends ActionBarActivity{
 
@@ -13,7 +14,7 @@ public class MainActivity extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent loginIntent = new Intent(this, LoginView.class);
+        Intent loginIntent = new Intent(this, LoginActivity.class);
         startActivity(loginIntent);
     }
 

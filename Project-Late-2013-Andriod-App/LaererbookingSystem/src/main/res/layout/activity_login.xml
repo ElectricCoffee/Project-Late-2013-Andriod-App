@@ -1,9 +1,9 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<dk.eal.learerbookingsystem.view.LoginView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".LoginActivity"
+    tools:context=".activity.LoginActivity"
     android:background="@drawable/abc_ab_solid_dark_holo">
 
     <GridLayout
@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/username"
+            android:text="@string/textview_text_username"
             android:id="@+id/textViewUsername"
             android:layout_above="@+id/textViewUsername"
             android:layout_gravity="center_vertical"
@@ -32,7 +32,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/password"
+            android:text="@string/textview_text_password"
             android:id="@+id/textViewPassword"
             android:layout_centerVertical="true"
             android:layout_alignLeft="@+id/textViewPassword"
@@ -81,16 +81,12 @@
         <Button
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:id="@+id/buttonLogin"
-            android:layout_columnSpan="2"
+            android:text="@string/button_text_register"
+            android:id="@+id/buttonRegister"
             android:layout_weight="1"
             style="?android:attr/buttonBarStyle"
             android:layout_gravity="center"
-            android:textColor="@android:color/white"
-            android:onClick="onClick"/>
+            android:textColor="@android:color/white" />
 
         <View android:layout_height="fill_parent"
             android:layout_width="1dp"
@@ -99,14 +95,12 @@
         <Button
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/addUser"
-            android:id="@+id/buttonRegister"
-            android:layout_row="2"
-            android:layout_column="2"
-            android:onClick="onClickRegistrer"
+            android:text="@string/button_text_login"
+            android:id="@+id/buttonLogin"
             android:layout_weight="1"
             style="?android:attr/buttonBarStyle"
             android:layout_gravity="center"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"/>
+
     </LinearLayout>
-</RelativeLayout>
+</dk.eal.learerbookingsystem.view.LoginView>

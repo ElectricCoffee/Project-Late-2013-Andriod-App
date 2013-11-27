@@ -1,12 +1,10 @@
-package dk.eal.learerbookingsystem.Utils;
+package dk.eal.learerbookingsystem.utils;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import dk.eal.learerbookingsystem.communication.RestCommunication;
 
 /**
  * Created by Trine on 21-11-13.

@@ -3,6 +3,7 @@ package dk.eal.learerbookingsystem.communication;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -17,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
@@ -25,8 +27,8 @@ import java.util.List;
  */
 public class RestCommunication implements ICommunication {
     public static final String
-        //BASE_URL = "http://92.243.227.143/api/",
-        BASE_URL = "http://localhost:14781/api";
+        BASE_URL = "http://87.104.29.39/rest/api";
+        //BASE_URL = "http://10.0.2.2:14781/api";
 
     public RestCommunication() { }
 
@@ -41,8 +43,7 @@ public class RestCommunication implements ICommunication {
                 sb.append(line);
             }
         }
-        catch (IOException ioe)
-        {
+        catch (IOException ioe) {
             ioe.printStackTrace();
         }
         finally {
@@ -69,7 +70,15 @@ public class RestCommunication implements ICommunication {
             put.setEntity(new StringEntity(json));
             HttpResponse response = client.execute(put);
         }
-        catch (Exception e) { }
+        catch (ClientProtocolException cpe) {
+            cpe.printStackTrace();
+        }
+        catch (URISyntaxException use) {
+            use.printStackTrace();
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     @Override
@@ -82,7 +91,15 @@ public class RestCommunication implements ICommunication {
             post.setEntity(new StringEntity(json));
             HttpResponse response = client.execute(post);
         }
-        catch (Exception e) { }
+        catch (ClientProtocolException cpe) {
+            cpe.printStackTrace();
+        }
+        catch (URISyntaxException use) {
+            use.printStackTrace();
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     @Override
@@ -96,7 +113,15 @@ public class RestCommunication implements ICommunication {
             HttpResponse response = client.execute(get);
             data = readStream(response.getEntity().getContent());
         }
-        catch (Exception e) { }
+        catch (ClientProtocolException cpe) {
+            cpe.printStackTrace();
+        }
+        catch (URISyntaxException use) {
+            use.printStackTrace();
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
 
         return data;
     }
@@ -111,6 +136,14 @@ public class RestCommunication implements ICommunication {
             HttpResponse response = client.execute(delete);
             String s = response.toString();
         }
-        catch (Exception e) { }
+        catch (ClientProtocolException cpe) {
+            cpe.printStackTrace();
+        }
+        catch (URISyntaxException use) {
+            use.printStackTrace();
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 }

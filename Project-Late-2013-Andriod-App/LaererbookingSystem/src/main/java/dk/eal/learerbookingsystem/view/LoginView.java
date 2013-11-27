@@ -1,26 +1,35 @@
 package dk.eal.learerbookingsystem.view;
 
-import android.os.Bundle;
-import android.view.Menu;
+import android.content.Context;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import dk.eal.learerbookingsystem.R;
-import dk.eal.learerbookingsystem.controller.LoginController;
 
-public class LoginView extends BaseView<LoginController> implements View.OnClickListener {
+public class LoginView extends RelativeLayout implements IView<LoginView.ViewListener>, View.OnClickListener {
     private EditText username, password;
     private Button register, login;
+    protected LoginView.ViewListener _viewListener;
 
-    public LoginView() {
-        super();
+    public void setViewListener(ViewListener listener) {
+        _viewListener = listener;
+    }
+
+    public interface ViewListener {
+        void login(String username, String password);
+        void beginRegister();
+    }
+
+    public LoginView(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    protected void onFinishInflate() {
+        super.onFinishInflate();
 
         username = (EditText)findViewById(R.id.editTextUsername);
         password = (EditText)findViewById(R.id.editTextPassword);
@@ -33,29 +42,16 @@ public class LoginView extends BaseView<LoginController> implements View.OnClick
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds _items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.login, menu);
-        return true;
-    }
-
-    public String getUsername() {
-        return username.getText().toString();
-    }
-
-    public String getPassword() {
-        return password.getText().toString();
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonLogin:
-                _controller.login();
+                _viewListener.login(
+                    username.getText().toString(),
+                    password.getText().toString());
                 break;
-            /*case R.id.buttonRegister:
-                _controller.beginRegister();
-                break;*/
+            case R.id.buttonRegister:
+                _viewListener.beginRegister();
+                break;
             default:
                 break;
         }

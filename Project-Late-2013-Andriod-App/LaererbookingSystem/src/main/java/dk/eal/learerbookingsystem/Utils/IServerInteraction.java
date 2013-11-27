@@ -1,6 +1,4 @@
-package dk.eal.learerbookingsystem.Utils;
-
-import android.graphics.Shader;
+package dk.eal.learerbookingsystem.utils;
 
 import java.util.List;
 
