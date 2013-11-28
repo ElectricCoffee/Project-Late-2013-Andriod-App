@@ -16,9 +16,7 @@ import dk.eal.learerbookingsystem.R;
 import dk.eal.learerbookingsystem.model.BookingModel;
 import dk.eal.learerbookingsystem.service.ServerService;
 import dk.eal.learerbookingsystem.utils.JsonSerializer;
-import dk.eal.learerbookingsystem.utils.RegisterRequest;
-import dk.eal.learerbookingsystem.view.BookingView;
-import dk.eal.learerbookingsystem.view.RegisterView;
+import dk.eal.learerbookingsystem.view.NewBookingView;
 
 public class NewBookingActivity extends BaseActivity {
     public static final String
@@ -26,13 +24,13 @@ public class NewBookingActivity extends BaseActivity {
         BOOKING_URL = "booking";
 
     private NewBookingActivity _instance;
-    private BookingView _view;
+    private NewBookingView _view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         _instance = this;
-        _view = (BookingView) View.inflate(this, R.layout.activity_booking_new, null);
+        _view = (NewBookingView) View.inflate(this, R.layout.activity_booking_new, null);
         _view.setViewListener(viewListener);
         setContentView(_view);
     }
@@ -72,7 +70,7 @@ public class NewBookingActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    BookingView.ViewListener viewListener = new BookingView.ViewListener() {
+    NewBookingView.ViewListener viewListener = new NewBookingView.ViewListener() {
         @Override
         public void cancel() {
             NavUtils.navigateUpFromSameTask(_instance);

@@ -15,7 +15,7 @@ public class MainActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (true) {
-            Intent bookingIntent = new Intent(this, NewBookingActivity.class);
+            Intent bookingIntent = new Intent(this, BookingActivity.class);
             startActivity(bookingIntent);
         }
         else {

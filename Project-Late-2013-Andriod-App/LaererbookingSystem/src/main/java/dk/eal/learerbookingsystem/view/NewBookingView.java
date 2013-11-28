@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -16,9 +15,9 @@ import dk.eal.learerbookingsystem.R;
 /**
  * Created by Trine on 27-11-13.
  */
-public class BookingView extends RelativeLayout implements View.OnClickListener {
+public class NewBookingView extends RelativeLayout implements View.OnClickListener {
 
-    protected BookingView.ViewListener _viewListener;
+    protected NewBookingView.ViewListener _viewListener;
     private EditText comment;
     private Button cancel, create;
     private Spinner subject, date, startTime, endTime;
@@ -32,7 +31,7 @@ public class BookingView extends RelativeLayout implements View.OnClickListener 
         void create(String subject, Date startDate, Date endDate, String comment);
     }
 
-    public BookingView(Context context, AttributeSet attributeSet) {
+    public NewBookingView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
     }
     protected void onFinishInflate() {

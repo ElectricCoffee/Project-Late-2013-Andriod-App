@@ -1,4 +1,4 @@
-<dk.eal.learerbookingsystem.view.BookingView xmlns:android="http://schemas.android.com/apk/res/android"
+<dk.eal.learerbookingsystem.view.NewBookingView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -123,5 +123,5 @@
 
 
 
-</dk.eal.learerbookingsystem.view.BookingView>
+</dk.eal.learerbookingsystem.view.NewBookingView>
 
