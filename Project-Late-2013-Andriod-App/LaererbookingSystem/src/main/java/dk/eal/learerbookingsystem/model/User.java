@@ -4,14 +4,14 @@ package dk.eal.learerbookingsystem.model;
  * Created by Trine on 28-11-13.
  */
 public class User {
-    private int _id;
+    private long _id;
     private String _username;
     private String _password;
     private Name _name;
 
     public User () {}
 
-    public User (String username, String password, Name name )
+    public User (String username, String password, Name name)
     {
         _username = username;
         _password = password;
@@ -26,7 +26,7 @@ public class User {
         _username = username;
     }
 
-    public int getId() {
+    public long getId() {
         return _id;
     }
 
@@ -38,7 +38,7 @@ public class User {
         _name = name;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         _id = id;
     }
 

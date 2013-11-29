@@ -3,29 +3,20 @@ package dk.eal.learerbookingsystem.model;
 /**
  * Created by Trine on 28-11-13.
  */
-public class Administrator {
-    private int _id;
-    private User _user;
+public class Administrator extends User {
+    private long _userId;
 
     public Administrator() {}
 
-    public Administrator(User user) {
-        _user = user;
+    public Administrator(String username, String password, Name name) {
+        super(username, password, name);
     }
 
-    public int getId() {
-        return _id;
+    public long getUserId() {
+        return _userId;
     }
 
-    public void setId(int id) {
-        _id = id;
-    }
-
-    public User getUser() {
-        return _user;
-    }
-
-    public void setUser(User user){
-        _user = user;
+    public void setUserId(long userId) {
+        _userId = userId;
     }
 }

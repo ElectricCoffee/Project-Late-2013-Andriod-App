@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by Trine on 28-11-13.
  */
 public class Booking {
-    private int _id;
+    private long _id;
     private Date _startDate;
     private Date _endDate;
     private Subject _subject;
@@ -35,11 +35,11 @@ public class Booking {
         _startDate = startDate;
     }
 
-    public int getId() {
+    public long getId() {
         return _id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         _id = id;
     }
 

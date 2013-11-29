@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 
 import dk.eal.learerbookingsystem.model.Booking;
 import dk.eal.learerbookingsystem.model.ConcreteBooking;
-import dk.eal.learerbookingsystem.model.Homeroom;
+import dk.eal.learerbookingsystem.model.HomeRoomClass;
 import dk.eal.learerbookingsystem.model.Name;
 import dk.eal.learerbookingsystem.model.PossibleBooking;
 import dk.eal.learerbookingsystem.model.Semester;
@@ -99,7 +99,7 @@ public class DataSource {
 
         Name studentName = new Name(cursor.getString(1), cursor.getString(2));
         User studentUser = new User(cursor.getString(1),cursor.getString(2),studentName);
-        Homeroom homeroom = new Homeroom(cursor.getString(1));
+        HomeRoomClass homeroom = new HomeRoomClass(cursor.getString(1));
         Student student = new Student((byte) cursor.getInt(1), studentUser, homeroom);
 
         Booking booking;

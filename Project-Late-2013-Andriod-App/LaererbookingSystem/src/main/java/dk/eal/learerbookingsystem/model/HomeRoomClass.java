@@ -3,13 +3,13 @@ package dk.eal.learerbookingsystem.model;
 /**
  * Created by Trine on 28-11-13.
  */
-public class Semester {
+public class HomeRoomClass {
     private long _id;
     private String _name;
 
-    public Semester() {}
+    public HomeRoomClass() {}
 
-    public Semester(String name) {
+    public HomeRoomClass(String name) {
         _name = name;
     }
 
@@ -28,4 +28,6 @@ public class Semester {
     public void setName(String name) {
         _name = name;
     }
+
+
 }

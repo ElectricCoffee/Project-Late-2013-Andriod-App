@@ -50,7 +50,7 @@ public class ConcreteBookingSource {
 
         long insertId = _database.insert(DbHelper.TABLE_CONCRETEBOOKING, null, values);
 
-        Cursor cursor = _database.query(_dbHelper.TABLE_CONCRETEBOOKING, _allColumns, DbHelper.COLUMN_CONCRETEBOOKING_ID + "=" +
+        Cursor cursor = _database.query(_dbHelper.TABLE_CONCRETEBOOKING, _allColumns, DbHelper.COLUMN_ID + "=" +
             insertId, null, null, null, null);
         cursor.moveToFirst();
         cursor.close();

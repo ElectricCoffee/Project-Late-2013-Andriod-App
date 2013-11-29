@@ -4,7 +4,7 @@ package dk.eal.learerbookingsystem.model;
  * Created by Trine on 28-11-13.
  */
 public class Subject {
-    private int _id;
+    private long _id;
     private String _name;
     private Semester _semester;
     private Teacher _teacher;
@@ -25,11 +25,11 @@ public class Subject {
         _name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return _id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         _id = id;
     }
 

@@ -3,53 +3,41 @@ package dk.eal.learerbookingsystem.model;
 /**
  * Created by Trine on 28-11-13.
  */
-public class Student {
+public class Student extends User {
 
-    private int _id;
-    private byte _approve;
-    private User _user;
-    private Homeroom _homeroom;
+    private long _userId;
+    private byte _approved;
+    private HomeRoomClass _homeRoomClass;
 
     public Student() {}
 
-    public Student(byte approve, User user, Homeroom homeroom) {
-        _approve = approve;
-        _user = user;
-        _homeroom = homeroom;
+    public Student(String username, String password, byte approve, HomeRoomClass homeRoomClass, Name name) {
+        super(username, password, name);
+        _approved = approve;
+        _homeRoomClass = homeRoomClass;
     }
 
-
-    public int getId() {
-        return _id;
+    public byte getApproved() {
+        return _approved;
     }
 
-    public void setId(int id) {
-       _id = id;
+    public void setApproved(byte approved) {
+        _approved = approved;
     }
 
-    public byte getApprove() {
-        return _approve;
+    public HomeRoomClass getHomeRoomClass() {
+        return _homeRoomClass;
     }
 
-    public void setApprove(byte approve) {
-        _approve = approve;
+    public void setHomeRoomClass(HomeRoomClass homeRoomClass) {
+        _homeRoomClass = homeRoomClass;
     }
 
-    public User getUser() {
-        return _user;
+    public long getUserId() {
+        return _userId;
     }
 
-    public void setUser(User user) {
-        _user = user;
+    public void setUserId(long userId) {
+        _userId = userId;
     }
-
-    public Homeroom getHomeroom() {
-        return _homeroom;
-    }
-
-    public void setHomeroom(Homeroom homeroom) {
-        _homeroom = homeroom;
-    }
-
-
 }

@@ -5,7 +5,7 @@ package dk.eal.learerbookingsystem.model;
  */
 public class Name {
 
-    private int _id;
+    private long _id;
     private String _firstname;
     private String _lastname;
 
@@ -24,11 +24,11 @@ public class Name {
        _firstname = firstname;
     }
 
-    public int getId() {
+    public long getId() {
         return _id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         _id = id;
     }
 

@@ -5,18 +5,18 @@ package dk.eal.learerbookingsystem.model;
  */
 public class PossibleBooking {
 
-    private int _id;
+    private long _id;
     private Booking _booking;
 
     public PossibleBooking(Booking booking) {
         _booking = booking;
     }
 
-    public int getId() {
+    public long getId() {
         return _id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         _id = id;
     }
 

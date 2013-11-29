@@ -4,7 +4,7 @@ package dk.eal.learerbookingsystem.model;
  * Created by Trine on 28-11-13.
  */
 public class ConcreteBooking {
-    private int _id;
+    private long _id;
     private String _comment;
     private byte _type;
     private byte _statusChanged;
@@ -23,11 +23,11 @@ public class ConcreteBooking {
         _student = student;
     }
 
-    public int getId() {
+    public long getId() {
         return _id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         _id = id;
     }
 
