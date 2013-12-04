@@ -44,8 +44,6 @@ public class NewBookingView extends RelativeLayout implements View.OnClickListen
 
         subject = (Spinner) findViewById(R.id.spinner_subject);
         date = (Spinner) findViewById(R.id.spinner_chose_date);
-        startTime = (Spinner) findViewById(R.id.spinner_chose_starttime);
-        endTime = (Spinner) findViewById(R.id.spinner_chose_endtime);
 
         cancel.setOnClickListener(this);
         create.setOnClickListener(this);

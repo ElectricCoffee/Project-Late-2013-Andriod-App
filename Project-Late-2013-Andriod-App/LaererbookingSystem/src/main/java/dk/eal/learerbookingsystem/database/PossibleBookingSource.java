@@ -6,13 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import dk.eal.learerbookingsystem.model.Booking;
 import dk.eal.learerbookingsystem.model.PossibleBooking;
-import dk.eal.learerbookingsystem.model.Student;
-import dk.eal.learerbookingsystem.model.Subject;
 
 /**
  * Created by Trine on 04-12-13.
@@ -21,7 +18,7 @@ public class PossibleBookingSource {
     private Context _context;
     private SQLiteDatabase _database; //ref til db
     private DbHelper _dbHelper; //ref til db helper
-    private String[] _allColumns = {
+    public static String[] ALL_COLUMNS = {
             DbHelper.COLUMN_ID,
             DbHelper.COLUMN_POSSIBLEBOOKING_DURATION,
             DbHelper.COLUMN_FK_BOOKING_ID
@@ -61,7 +58,7 @@ public class PossibleBookingSource {
 
     public boolean possibleBookingExists(PossibleBooking possibleBooking) {
         Cursor cursor = _database.query(DbHelper.TABLE_POSSIBLEBOOKING, //Opretter en cursor
-                _allColumns, DbHelper.COLUMN_ID + " = " + possibleBooking.getId(), null,
+                ALL_COLUMNS, DbHelper.COLUMN_ID + " = " + possibleBooking.getId(), null,
                 null, null, null);
         boolean result = cursor.moveToFirst(); //Går til den første i rækken
         cursor.close();
@@ -70,7 +67,7 @@ public class PossibleBookingSource {
 
     public PossibleBooking getPossibleBookingById(long id) {
         Cursor cursor = _database.query(DbHelper.TABLE_POSSIBLEBOOKING, //Opretter en cursor
-                _allColumns, DbHelper.COLUMN_ID + " = " + id, null,
+                ALL_COLUMNS, DbHelper.COLUMN_ID + " = " + id, null,
                 null, null, null);
         cursor.moveToFirst();
         PossibleBooking possibleBooking = cursorToPossibleBooking(cursor);

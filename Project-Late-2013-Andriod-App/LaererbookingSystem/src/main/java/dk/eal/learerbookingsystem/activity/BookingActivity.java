@@ -1,20 +1,28 @@
 package dk.eal.learerbookingsystem.activity;
 
 import android.app.ListActivity;
-import android.content.CursorLoader;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
+import android.support.v4.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.CursorAdapter;
+import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.widget.ListView;
 
 import dk.eal.learerbookingsystem.R;
+import dk.eal.learerbookingsystem.contentprovider.ConcreteBookingContentProvider;
+import dk.eal.learerbookingsystem.database.BookingSource;
+import dk.eal.learerbookingsystem.database.ConcreteBookingSource;
 import dk.eal.learerbookingsystem.database.DbHelper;
+import dk.eal.learerbookingsystem.model.ConcreteBooking;
 
-public class BookingActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class BookingActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+    ListView _listView;
 
     private CursorAdapter _adapter;
 
@@ -22,14 +30,37 @@ public class BookingActivity extends BaseActivity implements LoaderManager.Loade
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
-    }
+        _listView = (ListView) findViewById(R.id.bookingListView);
+        ConcreteBookingSource concreteBookingSource = new ConcreteBookingSource(this);
+        ConcreteBooking booking = new ConcreteBooking();
+        concreteBookingSource.createConcreteBooking(booking);
 
+        fillData();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.booking, menu);
         return true;
+    }
+
+    private void fillData() {
+
+        // Fields from the database (projection)
+        // Must include the _id column for the adapter to work
+        String[] from = new String[] {
+            DbHelper.COLUMN_SUBJECT_NAME,
+            DbHelper.COLUMN_BOOKING_STARTTIME,
+            DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS };
+        // Fields on the UI to which we map
+        int[] to = new int[] { R.id.subject, R.id.date, R.id.time };
+
+        getSupportLoaderManager().initLoader(0, null, this);
+        _adapter = new SimpleCursorAdapter(this, R.layout.row_booking, null, from,
+                to, 0);
+
+        _listView.setAdapter(_adapter);
     }
 
     @Override
@@ -47,20 +78,20 @@ public class BookingActivity extends BaseActivity implements LoaderManager.Loade
     }
 
     @Override
-    public android.support.v4.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {DbHelper.COLUMN_SUBJECT_NAME, DbHelper.COLUMN_BOOKING_STARTTIME, DbHelper.COLUMN_BOOKING_ENDTIME};
         CursorLoader cursorLoader = new CursorLoader(this,
-            MyContentProvider.CONTENT_URI, projection, null, null, null);
+            ConcreteBookingContentProvider.CONTENT_URI, projection, null, null, null);
         return cursorLoader;
     }
 
     @Override
-    public void onLoadFinished(android.support.v4.content.Loader<Cursor> cursorLoader, Cursor cursor) {
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         _adapter.swapCursor(cursor);
     }
 
     @Override
-    public void onLoaderReset(android.support.v4.content.Loader<Cursor> cursorLoader) {
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
         _adapter.swapCursor(null);
     }
 }

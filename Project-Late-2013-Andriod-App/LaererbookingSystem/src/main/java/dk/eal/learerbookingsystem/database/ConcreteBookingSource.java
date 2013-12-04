@@ -6,15 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import dk.eal.learerbookingsystem.model.Booking;
 import dk.eal.learerbookingsystem.model.ConcreteBooking;
 import dk.eal.learerbookingsystem.model.PossibleBooking;
-import dk.eal.learerbookingsystem.model.Semester;
 import dk.eal.learerbookingsystem.model.Student;
-import dk.eal.learerbookingsystem.model.Subject;
 
 /**
  * Created by Trine on 28-11-13.
@@ -22,7 +19,7 @@ import dk.eal.learerbookingsystem.model.Subject;
 public class ConcreteBookingSource {private Context _context;
     private SQLiteDatabase _database; //ref til db
     private DbHelper _dbHelper; //ref til db helper
-    private String[] _allColumns = {
+    public static final String[] ALL_COLUMNS = {
             DbHelper.COLUMN_ID,
             DbHelper.COLUMN_CONCRETEBOOKING_TYPE,
             DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS,
@@ -78,7 +75,7 @@ public class ConcreteBookingSource {private Context _context;
 
     public boolean concreteBookingExists(ConcreteBooking concreteBooking) {
         Cursor cursor = _database.query(DbHelper.TABLE_CONCRETEBOOKING, //Opretter en cursor
-                _allColumns, DbHelper.COLUMN_ID + " = " + concreteBooking.getId(), null,
+                ALL_COLUMNS, DbHelper.COLUMN_ID + " = " + concreteBooking.getId(), null,
                 null, null, null);
         boolean result = cursor.moveToFirst(); //Går til den første i rækken
         cursor.close();
@@ -87,7 +84,7 @@ public class ConcreteBookingSource {private Context _context;
 
     public ConcreteBooking getConcreteBookingById(long id) {
         Cursor cursor = _database.query(DbHelper.TABLE_CONCRETEBOOKING, //Opretter en cursor
-                _allColumns, DbHelper.COLUMN_ID + " = " + id, null,
+                ALL_COLUMNS, DbHelper.COLUMN_ID + " = " + id, null,
                 null, null, null);
         cursor.moveToFirst();
         ConcreteBooking concreteBooking = cursorToConcreteBooking(cursor);
