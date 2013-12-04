@@ -14,7 +14,7 @@ public class ConcreteBooking {
 
     public ConcreteBooking() {}
 
-    public ConcreteBooking(String comment, byte type, byte statusChanged, Booking booking, PossibleBooking possibleBooking, Student student) {
+    public ConcreteBooking(byte type,String comment, byte statusChanged, Booking booking, PossibleBooking possibleBooking, Student student) {
         _comment = comment;
         _type = type;
         _statusChanged = statusChanged;

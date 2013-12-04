@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import dk.eal.learerbookingsystem.model.Booking;
@@ -84,7 +85,12 @@ public class BookingSource {
         SubjectSource subjectSource = new SubjectSource(_context);
         Subject subject = subjectSource.getSubjectById(cursor.getLong(3));
 
-        Booking booking = new Booking(cursor.getString(1), cursor.getString(2), subject.getName());
+        Booking booking = null;
+        try {
+            booking = new Booking(_iso8601format.parse(cursor.getString(1)), _iso8601format.parse(cursor.getString(2)), subject);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         booking.setId(cursor.getLong(0));
         return booking;
     }

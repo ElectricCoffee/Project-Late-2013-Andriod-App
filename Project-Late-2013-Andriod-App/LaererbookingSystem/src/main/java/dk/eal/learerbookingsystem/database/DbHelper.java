@@ -64,7 +64,9 @@ public class DbHelper extends SQLiteOpenHelper {
             COLUMN_BOOKING_ENDTIME = "Slut Tid";
 
     //Table possiblebooking
-    public static final String TABLE_POSSIBLEBOOKING = "Mulig Booking";
+    public static final String
+            TABLE_POSSIBLEBOOKING = "Mulig Booking",
+            COLUMN_POSSIBLEBOOKING_DURATION = "Varighed";
 
     //Table concrete booking
     public static final String
@@ -139,6 +141,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String POSSIBLEBOOKING_CREATE = "create table "
             + TABLE_POSSIBLEBOOKING + "(" + COLUMN_ID + " integer primary key autoincrement, "
+            + COLUMN_POSSIBLEBOOKING_DURATION + "int not null, "
             + "foreign key" + COLUMN_FK_BOOKING_ID + "references" + COLUMN_ID + ");";
 
     private static final String CONCRETEBOOKING_CREATE = "create table "

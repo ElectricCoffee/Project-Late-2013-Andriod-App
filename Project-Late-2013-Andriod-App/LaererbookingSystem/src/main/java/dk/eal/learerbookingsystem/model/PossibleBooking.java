@@ -6,9 +6,11 @@ package dk.eal.learerbookingsystem.model;
 public class PossibleBooking {
 
     private long _id;
+    private int _duration;
     private Booking _booking;
 
-    public PossibleBooking(Booking booking) {
+    public PossibleBooking(int duration, Booking booking) {
+       _duration = duration;
         _booking = booking;
     }
 
@@ -18,6 +20,14 @@ public class PossibleBooking {
 
     public void setId(long id) {
         _id = id;
+    }
+
+    public int getDuration() {
+        return _duration;
+    }
+
+    public void setDuration(int duration) {
+        _duration = duration;
     }
 
     public Booking getBooking() {
