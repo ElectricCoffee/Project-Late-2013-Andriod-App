@@ -8,18 +8,20 @@ import android.support.v4.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.ListView;
 
+import java.sql.SQLException;
+
 import dk.eal.learerbookingsystem.R;
 import dk.eal.learerbookingsystem.contentprovider.ConcreteBookingContentProvider;
-import dk.eal.learerbookingsystem.database.BookingSource;
-import dk.eal.learerbookingsystem.database.ConcreteBookingSource;
 import dk.eal.learerbookingsystem.database.DbHelper;
-import dk.eal.learerbookingsystem.model.ConcreteBooking;
+import dk.eal.learerbookingsystem.database.NameSource;
+import dk.eal.learerbookingsystem.model.Name;
 
 public class BookingActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     ListView _listView;
@@ -31,11 +33,18 @@ public class BookingActivity extends FragmentActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
         _listView = (ListView) findViewById(R.id.bookingListView);
-        ConcreteBookingSource concreteBookingSource = new ConcreteBookingSource(this);
-        ConcreteBooking booking = new ConcreteBooking();
-        concreteBookingSource.createConcreteBooking(booking);
+        NameSource nameSource = new NameSource(this);
+        try {
+            nameSource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        nameSource.createName(new Name("Kaj", "Bromose"));
+        Log.v("eal", "name");
 
-        fillData();
+        nameSource.close();
+
+        // fillData();
     }
 
     @Override
