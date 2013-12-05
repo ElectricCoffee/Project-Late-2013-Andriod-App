@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +38,8 @@ public class ConcreteBookingContentProvider extends ContentProvider {
     private ConcreteBookingSource _concreteBookingSource;
     private SimpleDateFormat _iso8601format;
 
+    private static final String TAG = ConcreteBookingContentProvider.class.getName();
+
     // used for the UriMacher
     private static final int CONCRETEBOOKINGS = 10;
     private static final int CONCRETEBOOKING_ID = 20;
@@ -51,6 +54,11 @@ public class ConcreteBookingContentProvider extends ContentProvider {
             + "/possibleBooking";
     public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
             + "/possibleBooking";
+
+    public static final String
+            ALIAS_CONCRETEBOOKING = "kb",
+            ALIAS_BOOKING = "b",
+            ALIAS_SUBJECT = "f";
 
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
@@ -79,11 +87,15 @@ public class ConcreteBookingContentProvider extends ContentProvider {
 
         // Set the table
         String tables = String.format(
-            "%1s join %2$s on %2$s.%6$s = %1$s.%3$s" +
-                    "join %4$s on %4$s.%6$s = %2$s.%5$s",
-            DbHelper.TABLE_CONCRETEBOOKING, DbHelper.TABLE_BOOKING, DbHelper.COLUMN_FK_BOOKING_ID,
-            DbHelper.TABLE_SUBJECT, DbHelper.COLUMN_FK_SUBJECT_ID,
+            "%1$s as %2$s join %3$s as %4$s on %4$s.%9$s = %2$s.%5$s "
+            + "join %6$s as %7$s on %7$s.%9$s = %4$s.%8$s",
+            DbHelper.TABLE_CONCRETEBOOKING, ALIAS_CONCRETEBOOKING,
+            DbHelper.TABLE_BOOKING, ALIAS_BOOKING, DbHelper.COLUMN_FK_BOOKING_ID,
+            DbHelper.TABLE_SUBJECT, ALIAS_SUBJECT, DbHelper.COLUMN_FK_SUBJECT_ID,
             DbHelper.COLUMN_ID);
+
+        Log.d(TAG, "tables: " + tables);
+
         queryBuilder.setTables(tables); //Fortæller hvilken tabel der skal selectes
 
         int uriType = sURIMatcher.match(uri); //Opretter en ny URI type på baggrund af URIMatcher
@@ -92,7 +104,7 @@ public class ConcreteBookingContentProvider extends ContentProvider {
                 break;
             case CONCRETEBOOKING_ID:
                 // adding the ID to the original query
-                queryBuilder.appendWhere(DbHelper.TABLE_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID + "="
+                queryBuilder.appendWhere(ALIAS_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID + "="
                         + uri.getLastPathSegment());
                 break;
             default:
@@ -100,8 +112,8 @@ public class ConcreteBookingContentProvider extends ContentProvider {
         }
 
         SQLiteDatabase db = _database.getWritableDatabase(); //Opretter databasen som en skrivebar database
-        Cursor cursor = queryBuilder.query(db, projection, selection,
-                selectionArgs, null, null, sortOrder);
+        Cursor cursor = queryBuilder.query(
+                db, projection, selection, selectionArgs, null, null, sortOrder);
         // make sure that potential listeners are getting notified
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -272,7 +284,7 @@ public class ConcreteBookingContentProvider extends ContentProvider {
             available[i] = ConcreteBookingSource.ALL_COLUMNS[i];
 
         available[ConcreteBookingSource.ALL_COLUMNS.length] =
-            DbHelper.TABLE_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID;
+            ALIAS_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID;
 
         if (projection != null) {
             List<String> requestedColumns = Arrays.asList(projection);

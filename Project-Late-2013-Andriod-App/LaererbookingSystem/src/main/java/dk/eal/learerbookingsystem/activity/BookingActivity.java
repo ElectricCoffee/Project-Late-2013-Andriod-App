@@ -44,9 +44,10 @@ public class BookingActivity extends FragmentActivity implements LoaderManager.L
         // Fields from the database (projection)
         // Must include the _id column for the adapter to work
         String[] from = new String[] {
-            DbHelper.COLUMN_SUBJECT_NAME,
-            DbHelper.COLUMN_BOOKING_STARTTIME,
-            DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS };
+            ConcreteBookingContentProvider.ALIAS_SUBJECT + "." + DbHelper.COLUMN_SUBJECT_NAME,
+            ConcreteBookingContentProvider.ALIAS_BOOKING + "." + DbHelper.COLUMN_BOOKING_STARTTIME,
+            ConcreteBookingContentProvider.ALIAS_CONCRETEBOOKING + "."
+                + DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS };
         // Fields on the UI to which we map
         int[] to = new int[] { R.id.subject, R.id.date, R.id.time };
 
@@ -73,7 +74,7 @@ public class BookingActivity extends FragmentActivity implements LoaderManager.L
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
-            DbHelper.TABLE_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID,
+            ConcreteBookingContentProvider.ALIAS_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID,
             DbHelper.COLUMN_CONCRETEBOOKING_TYPE,
             DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS,
             DbHelper.COLUMN_CONCRETEBOOKING_STATUSCHANGED };
