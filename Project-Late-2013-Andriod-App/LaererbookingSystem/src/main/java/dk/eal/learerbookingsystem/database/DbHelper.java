@@ -163,7 +163,7 @@ public class DbHelper extends SQLiteOpenHelper {
             + COLUMN_FK_POSSIBLEBOOKING_ID + " integer not null,"
             + COLUMN_FK_STUDENT_ID + " integer not null,"
             + "foreign key(" + COLUMN_FK_BOOKING_ID + ") references " + TABLE_BOOKING + "(" + COLUMN_ID + "),"
-            + "foreign key(" + COLUMN_FK_POSSIBLEBOOKING_ID + ") references " + TABLE_POSSIBLEBOOKING + "(" + COLUMN_ID + "));"
+            + "foreign key(" + COLUMN_FK_POSSIBLEBOOKING_ID + ") references " + TABLE_POSSIBLEBOOKING + "(" + COLUMN_ID + ");"
             + "foreign key(" + COLUMN_FK_STUDENT_ID + ") references " + TABLE_STUDENT + "(" + COLUMN_ID + "));";
 
     public DbHelper(Context context) {
