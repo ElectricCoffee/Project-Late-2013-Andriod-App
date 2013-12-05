@@ -77,15 +77,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //All forging keys
     public static final String
-        COLUMN_FK_HOMEROOM_ID = "Hold_Id",
-        COLUMN_FK_NAME_ID = "Navn_Id",
-        COLUMN_FK_USER_ID = "Bruger_Id",
-        COLUMN_FK_SEMESTER_ID = "Semester_Id",
-        COLUMN_FK_TEACHER_ID = "Lærer_Id",
-        COLUMN_FK_SUBJECT_ID = "Fag_Id",
-        COLUMN_FK_BOOKING_ID = "Booking_Id",
-        COLUMN_FK_POSSIBLEBOOKING_ID = "Mulig Booking_Id",
-        COLUMN_FK_STUDENT_ID = "Studerende_Id";
+        COLUMN_FK_HOMEROOM_ID = "Hold" + COLUMN_ID,
+        COLUMN_FK_NAME_ID = "Navn" + COLUMN_ID,
+        COLUMN_FK_USER_ID = "Bruger" + COLUMN_ID,
+        COLUMN_FK_SEMESTER_ID = "Semester" + COLUMN_ID,
+        COLUMN_FK_TEACHER_ID = "Lærer" + COLUMN_ID,
+        COLUMN_FK_SUBJECT_ID = "Fag" + COLUMN_ID,
+        COLUMN_FK_BOOKING_ID = "Booking" + COLUMN_ID,
+        COLUMN_FK_POSSIBLEBOOKING_ID = "Mulig Booking" + COLUMN_ID,
+        COLUMN_FK_STUDENT_ID = "Studerende" + COLUMN_ID;
 
     //Creating all tables
     private static final String NAME_CREATE = "create table "
@@ -95,63 +95,76 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String HOMEROOM_CREATE = "create table "
             + TABLE_HOMEROOM + "(" + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_HOMEROOM_NAME + " varchar(50) not null,";
+            + COLUMN_HOMEROOM_NAME + " varchar(50) not null);";
 
     private static final String USER_CREATE = "create table "
             + TABLE_USER + "(" + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_USER_USERNAME + " varchar(50) not null,"
             + COLUMN_USER_PASSWORD + " varchar(50) not null,"
-            + "foreign key" + COLUMN_FK_NAME_ID + "references" + COLUMN_ID + ");";
+            + COLUMN_FK_NAME_ID + " integer not null,"
+            + "foreign key(" + COLUMN_FK_NAME_ID + ") references " + TABLE_NAME + "(" + COLUMN_ID + "));";
 
     private static final String STUDENT_CREATE = "create table "
             + TABLE_STUDENT + "(" + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_STUDENT_APPROVED + " tinyint not null,"
-            + "foreign key" + COLUMN_FK_USER_ID + "references" + COLUMN_ID
-            + "foreign key" + COLUMN_FK_HOMEROOM_ID + "references" + COLUMN_ID + ");";
+            + COLUMN_FK_USER_ID + " integer not null,"
+            + COLUMN_FK_HOMEROOM_ID + " integer not null,"
+            + "foreign key(" + COLUMN_FK_USER_ID + ") references " + TABLE_USER + "(" + COLUMN_ID + "),"
+            + "foreign key(" + COLUMN_FK_HOMEROOM_ID + ") references " + TABLE_HOMEROOM + "(" + COLUMN_ID + "));";
 
     private static final String TEACHER_CREATE = "create table "
             + TABLE_TEACHER + "(" + COLUMN_ID + " integer primary key autoincrement, "
-            + "foreign key" + COLUMN_FK_USER_ID+ "references" + COLUMN_ID + ");";
+            + COLUMN_FK_USER_ID + " integer not null,"
+            + "foreign key(" + COLUMN_FK_USER_ID+ ") references " + TABLE_USER + "(" + COLUMN_ID + "));";
 
     private static final String ADMINISTRATOR_CREATE = "create table "
             + TABLE_ADMINISTRATOR + "(" + COLUMN_ID + " integer primary key autoincrement, "
-            + "foreign key" + COLUMN_FK_USER_ID+ "references" + COLUMN_ID + ");";
-
+            + COLUMN_FK_USER_ID + " integer not null,"
+            + "foreign key(" + COLUMN_FK_USER_ID+ ") references " + TABLE_USER + "(" + COLUMN_ID + "));";
 
     private static final String SEMESTER_CREATE = "create table "
             + TABLE_SEMESTER + "(" + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_SEMESTER_NAME + " varchar(50) not null,";
+            + COLUMN_SEMESTER_NAME + " varchar(50) not null)";
 
     private static final String SUBJECT_CREATE = "create table "
             + TABLE_SUBJECT + "(" + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_SUBJECT_NAME + " varchar(50) not null,"
-            + "foreign key" + COLUMN_FK_SEMESTER_ID + "references" + COLUMN_ID
-            + "foreign key" + COLUMN_FK_TEACHER_ID + "references" + COLUMN_ID + ");";
+            + COLUMN_FK_SUBJECT_ID + " integer not null,"
+            + COLUMN_FK_TEACHER_ID + " integer not null,"
+            + "foreign key(" + COLUMN_FK_SEMESTER_ID + ") references " + TABLE_SEMESTER + "(" + COLUMN_ID + "),"
+            + "foreign key(" + COLUMN_FK_TEACHER_ID + ") references " + TABLE_TEACHER + "(" + COLUMN_ID + "));";
 
     private static final String HOMEROOMSUBJECT_CREATE = "create table "
             + TABLE_HOMEROOMSUBJECT + "(" + COLUMN_ID + " integer primary key autoincrement,"
-            + "foreign key" + COLUMN_FK_HOMEROOM_ID + "references" + COLUMN_ID
-            + "foreign key" + COLUMN_FK_SUBJECT_ID + "references" + COLUMN_ID + ");";
+            + COLUMN_FK_HOMEROOM_ID + " integer not null,"
+            + COLUMN_FK_SUBJECT_ID + " integer not null,"
+            + "foreign key(" + COLUMN_FK_HOMEROOM_ID + ") references " + TABLE_HOMEROOM + "(" + COLUMN_ID + "),"
+            + "foreign key(" + COLUMN_FK_SUBJECT_ID + ") references " + TABLE_SUBJECT + "(" + COLUMN_ID + "));";
 
     private static final String BOOKING_CREATE = "create table "
             + TABLE_BOOKING + "(" + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_BOOKING_STARTTIME + " date not null,"
-            + COLUMN_BOOKING_ENDTIME + "date not null,"
-            + "foreign key" + COLUMN_FK_SUBJECT_ID + "references" + COLUMN_ID + ");";
+            + COLUMN_BOOKING_ENDTIME + " date not null,"
+            + COLUMN_FK_SUBJECT_ID + " integer not null,"
+            + "foreign key(" + COLUMN_FK_SUBJECT_ID + ") references " + TABLE_SUBJECT + "(" + COLUMN_ID + "));";
 
     private static final String POSSIBLEBOOKING_CREATE = "create table "
             + TABLE_POSSIBLEBOOKING + "(" + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_POSSIBLEBOOKING_DURATION + "int not null, "
-            + "foreign key" + COLUMN_FK_BOOKING_ID + "references" + COLUMN_ID + ");";
+            + COLUMN_POSSIBLEBOOKING_DURATION + " int not null, "
+            + COLUMN_FK_BOOKING_ID + " integer not null,"
+            + "foreign key(" + COLUMN_FK_BOOKING_ID + ") references " + TABLE_BOOKING + "(" + COLUMN_ID + "));";
 
     private static final String CONCRETEBOOKING_CREATE = "create table "
             + TABLE_CONCRETEBOOKING + "(" + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_CONCRETEBOOKING_TYPE + "tinyint not null,"
+            + COLUMN_CONCRETEBOOKING_TYPE + " tinyint not null,"
             + COLUMN_CONCRETEBOOKING_COMMENTS + " varchar(150) not null,"
-            + COLUMN_CONCRETBOOKING_STATUSCHANGED + "tinyint not null,"
-            + "foreign key" + COLUMN_FK_BOOKING_ID + "references" + COLUMN_ID
-            + "foreign key" + COLUMN_FK_POSSIBLEBOOKING_ID + "references" + COLUMN_ID
-            + "foreign key" + COLUMN_FK_STUDENT_ID + "references" + COLUMN_ID + ");";
+            + COLUMN_CONCRETBOOKING_STATUSCHANGED + " tinyint not null,"
+            + COLUMN_FK_BOOKING_ID + " integer not null,"
+            + COLUMN_FK_POSSIBLEBOOKING_ID + " integer not null,"
+            + COLUMN_FK_STUDENT_ID + " integer not null,"
+            + "foreign key(" + COLUMN_FK_BOOKING_ID + ") references " + TABLE_BOOKING + "(" + COLUMN_ID + "),"
+            + "foreign key(" + COLUMN_FK_POSSIBLEBOOKING_ID + ") references " + TABLE_POSSIBLEBOOKING + "(" + COLUMN_ID + "));"
+            + "foreign key(" + COLUMN_FK_STUDENT_ID + ") references " + TABLE_STUDENT + "(" + COLUMN_ID + "));";
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

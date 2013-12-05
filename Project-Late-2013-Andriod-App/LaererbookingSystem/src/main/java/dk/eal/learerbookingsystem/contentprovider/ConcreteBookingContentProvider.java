@@ -77,7 +77,8 @@ public class ConcreteBookingContentProvider extends ContentProvider {
         checkColumns(projection);
 
         // Set the table
-        queryBuilder.setTables(DbHelper.TABLE_CONCRETEBOOKING); //Fortæller hvilken tabel der skal selectes
+        queryBuilder.setTables(String.format("%s, %s, %s", DbHelper.TABLE_CONCRETEBOOKING,
+            DbHelper.TABLE_BOOKING, DbHelper.TABLE_SUBJECT)); //Fortæller hvilken tabel der skal selectes
 
         int uriType = sURIMatcher.match(uri); //Opretter en ny URI type på baggrund af URIMatcher
         switch (uriType) {

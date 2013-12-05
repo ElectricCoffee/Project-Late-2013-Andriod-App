@@ -66,8 +66,7 @@ public class BookingActivity extends FragmentActivity implements LoaderManager.L
         int[] to = new int[] { R.id.subject, R.id.date, R.id.time };
 
         getSupportLoaderManager().initLoader(0, null, this);
-        _adapter = new SimpleCursorAdapter(this, R.layout.row_booking, null, from,
-                to, 0);
+        _adapter = new SimpleCursorAdapter(this, R.layout.row_booking, null, from, to, 0);
 
         _listView.setAdapter(_adapter);
     }
