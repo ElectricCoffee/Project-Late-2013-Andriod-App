@@ -129,7 +129,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String SUBJECT_CREATE = "create table "
             + TABLE_SUBJECT + "(" + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_SUBJECT_NAME + " varchar(50) not null,"
-            + COLUMN_FK_SUBJECT_ID + " integer not null,"
+            + COLUMN_FK_SEMESTER_ID + " integer not null,"
             + COLUMN_FK_TEACHER_ID + " integer not null,"
             + "foreign key(" + COLUMN_FK_SEMESTER_ID + ") references " + TABLE_SEMESTER + "(" + COLUMN_ID + "),"
             + "foreign key(" + COLUMN_FK_TEACHER_ID + ") references " + TABLE_TEACHER + "(" + COLUMN_ID + "));";
@@ -149,9 +149,9 @@ public class DbHelper extends SQLiteOpenHelper {
             + "foreign key(" + COLUMN_FK_SUBJECT_ID + ") references " + TABLE_SUBJECT + "(" + COLUMN_ID + "));";
 
     private static final String POSSIBLEBOOKING_CREATE = "create table "
-            + TABLE_POSSIBLEBOOKING + "(" + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_POSSIBLEBOOKING_DURATION + " int not null, "
+            + TABLE_POSSIBLEBOOKING + "(" + COLUMN_ID + " integer primary key autoincrement,"
             + COLUMN_FK_BOOKING_ID + " integer not null,"
+            + COLUMN_POSSIBLEBOOKING_DURATION + " integer not null,"
             + "foreign key(" + COLUMN_FK_BOOKING_ID + ") references " + TABLE_BOOKING + "(" + COLUMN_ID + "));";
 
     private static final String CONCRETEBOOKING_CREATE = "create table "

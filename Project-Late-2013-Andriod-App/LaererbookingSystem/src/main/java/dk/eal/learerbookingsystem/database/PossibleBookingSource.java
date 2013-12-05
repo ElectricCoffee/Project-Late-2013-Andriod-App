@@ -22,6 +22,8 @@ public class PossibleBookingSource {
             DbHelper.COLUMN_ID,
             DbHelper.COLUMN_POSSIBLEBOOKING_DURATION,
             DbHelper.COLUMN_FK_BOOKING_ID
+
+
     };
     private SimpleDateFormat _iso8601format;
 
