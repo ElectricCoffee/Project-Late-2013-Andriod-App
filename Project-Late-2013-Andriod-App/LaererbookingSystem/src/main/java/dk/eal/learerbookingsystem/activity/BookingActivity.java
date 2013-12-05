@@ -1,6 +1,5 @@
 package dk.eal.learerbookingsystem.activity;
 
-import android.app.ListActivity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.CursorLoader;
 import android.content.Intent;
@@ -8,20 +7,15 @@ import android.support.v4.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.ListView;
 
-import java.sql.SQLException;
-
 import dk.eal.learerbookingsystem.R;
 import dk.eal.learerbookingsystem.contentprovider.ConcreteBookingContentProvider;
 import dk.eal.learerbookingsystem.database.DbHelper;
-import dk.eal.learerbookingsystem.database.NameSource;
-import dk.eal.learerbookingsystem.model.Name;
 
 public class BookingActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     ListView _listView;
@@ -33,18 +27,9 @@ public class BookingActivity extends FragmentActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
         _listView = (ListView) findViewById(R.id.bookingListView);
-        NameSource nameSource = new NameSource(this);
-        try {
-            nameSource.open();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        nameSource.createName(new Name("Kaj", "Bromose"));
-        Log.v("eal", "name");
 
-        nameSource.close();
 
-        // fillData();
+        fillData();
     }
 
     @Override
@@ -87,7 +72,12 @@ public class BookingActivity extends FragmentActivity implements LoaderManager.L
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        String[] projection = {DbHelper.COLUMN_SUBJECT_NAME, DbHelper.COLUMN_BOOKING_STARTTIME, DbHelper.COLUMN_BOOKING_ENDTIME};
+        String[] projection = {
+            DbHelper.TABLE_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID,
+            DbHelper.COLUMN_CONCRETEBOOKING_TYPE,
+            DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS,
+            DbHelper.COLUMN_CONCRETEBOOKING_STATUSCHANGED };
+
         CursorLoader cursorLoader = new CursorLoader(this,
             ConcreteBookingContentProvider.CONTENT_URI, projection, null, null, null);
         return cursorLoader;

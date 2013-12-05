@@ -65,15 +65,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //Table possiblebooking
     public static final String
-            TABLE_POSSIBLEBOOKING = "Mulig Booking",
+            TABLE_POSSIBLEBOOKING = "MuligBooking",
             COLUMN_POSSIBLEBOOKING_DURATION = "Varighed";
 
     //Table concrete booking
     public static final String
-            TABLE_CONCRETEBOOKING = "Konkret Booking",
+            TABLE_CONCRETEBOOKING = "KonkretBooking",
             COLUMN_CONCRETEBOOKING_TYPE = "Type",
             COLUMN_CONCRETEBOOKING_COMMENTS = "Kommentar",
-            COLUMN_CONCRETBOOKING_STATUSCHANGED = "Ændret Status";
+            COLUMN_CONCRETEBOOKING_STATUSCHANGED = "ÆndretStatus";
 
     //All forging keys
     public static final String
@@ -84,7 +84,7 @@ public class DbHelper extends SQLiteOpenHelper {
         COLUMN_FK_TEACHER_ID = "Lærer" + COLUMN_ID,
         COLUMN_FK_SUBJECT_ID = "Fag" + COLUMN_ID,
         COLUMN_FK_BOOKING_ID = "Booking" + COLUMN_ID,
-        COLUMN_FK_POSSIBLEBOOKING_ID = "Mulig Booking" + COLUMN_ID,
+        COLUMN_FK_POSSIBLEBOOKING_ID = "MuligBooking" + COLUMN_ID,
         COLUMN_FK_STUDENT_ID = "Studerende" + COLUMN_ID;
 
     //Creating all tables
@@ -150,15 +150,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String POSSIBLEBOOKING_CREATE = "create table "
             + TABLE_POSSIBLEBOOKING + "(" + COLUMN_ID + " integer primary key autoincrement,"
-            + COLUMN_FK_BOOKING_ID + " integer not null,"
             + COLUMN_POSSIBLEBOOKING_DURATION + " integer not null,"
+            + COLUMN_FK_BOOKING_ID + " integer not null,"
             + "foreign key(" + COLUMN_FK_BOOKING_ID + ") references " + TABLE_BOOKING + "(" + COLUMN_ID + "));";
 
     private static final String CONCRETEBOOKING_CREATE = "create table "
             + TABLE_CONCRETEBOOKING + "(" + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_CONCRETEBOOKING_TYPE + " tinyint not null,"
             + COLUMN_CONCRETEBOOKING_COMMENTS + " varchar(150) not null,"
-            + COLUMN_CONCRETBOOKING_STATUSCHANGED + " tinyint not null,"
+            + COLUMN_CONCRETEBOOKING_STATUSCHANGED + " tinyint not null,"
             + COLUMN_FK_BOOKING_ID + " integer not null,"
             + COLUMN_FK_POSSIBLEBOOKING_ID + " integer not null,"
             + COLUMN_FK_STUDENT_ID + " integer not null,"

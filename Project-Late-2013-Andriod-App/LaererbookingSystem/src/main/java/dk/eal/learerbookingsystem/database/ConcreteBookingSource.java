@@ -23,7 +23,7 @@ public class ConcreteBookingSource {private Context _context;
             DbHelper.COLUMN_ID,
             DbHelper.COLUMN_CONCRETEBOOKING_TYPE,
             DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS,
-            DbHelper.COLUMN_CONCRETBOOKING_STATUSCHANGED,
+            DbHelper.COLUMN_CONCRETEBOOKING_STATUSCHANGED,
             DbHelper.COLUMN_FK_BOOKING_ID,
             DbHelper.COLUMN_FK_POSSIBLEBOOKING_ID,
             DbHelper.COLUMN_FK_STUDENT_ID
@@ -62,7 +62,7 @@ public class ConcreteBookingSource {private Context _context;
 
         values.put(DbHelper.COLUMN_CONCRETEBOOKING_TYPE, concreteBooking.getType());
         values.put(DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS, concreteBooking.getComment());
-        values.put(DbHelper.COLUMN_CONCRETBOOKING_STATUSCHANGED, concreteBooking.getStatusChanged());
+        values.put(DbHelper.COLUMN_CONCRETEBOOKING_STATUSCHANGED, concreteBooking.getStatusChanged());
         values.put(DbHelper.COLUMN_FK_BOOKING_ID, concreteBooking.getBooking().getId());
         values.put(DbHelper.COLUMN_FK_POSSIBLEBOOKING_ID, concreteBooking.getPossibleBooking().getId());
         values.put(DbHelper.COLUMN_FK_STUDENT_ID,concreteBooking.getStudent().getId());

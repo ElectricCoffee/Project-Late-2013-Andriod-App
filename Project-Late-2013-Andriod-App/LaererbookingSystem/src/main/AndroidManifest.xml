@@ -48,6 +48,11 @@
             android:label="@string/title_activity_booking_new"
             android:parentActivityName="dk.eal.learerbookingsystem.activity.BookingActivity">
         </activity>
+
+        <provider
+            android:name=".contentprovider.ConcreteBookingContentProvider"
+            android:authorities="dk.eal.learerbookingsystem.contentprovider"
+            android:exported="false"/>
     </application>
 
 </manifest>

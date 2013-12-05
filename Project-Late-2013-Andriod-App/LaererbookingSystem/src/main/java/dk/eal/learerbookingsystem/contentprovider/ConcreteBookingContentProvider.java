@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -77,8 +78,13 @@ public class ConcreteBookingContentProvider extends ContentProvider {
         checkColumns(projection);
 
         // Set the table
-        queryBuilder.setTables(String.format("%s, %s, %s", DbHelper.TABLE_CONCRETEBOOKING,
-            DbHelper.TABLE_BOOKING, DbHelper.TABLE_SUBJECT)); //Fortæller hvilken tabel der skal selectes
+        String tables = String.format(
+            "%1s join %2$s on %2$s.%6$s = %1$s.%3$s" +
+                    "join %4$s on %4$s.%6$s = %2$s.%5$s",
+            DbHelper.TABLE_CONCRETEBOOKING, DbHelper.TABLE_BOOKING, DbHelper.COLUMN_FK_BOOKING_ID,
+            DbHelper.TABLE_SUBJECT, DbHelper.COLUMN_FK_SUBJECT_ID,
+            DbHelper.COLUMN_ID);
+        queryBuilder.setTables(tables); //Fortæller hvilken tabel der skal selectes
 
         int uriType = sURIMatcher.match(uri); //Opretter en ny URI type på baggrund af URIMatcher
         switch (uriType) {
@@ -86,7 +92,7 @@ public class ConcreteBookingContentProvider extends ContentProvider {
                 break;
             case CONCRETEBOOKING_ID:
                 // adding the ID to the original query
-                queryBuilder.appendWhere(DbHelper.COLUMN_ID + "="
+                queryBuilder.appendWhere(DbHelper.TABLE_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID + "="
                         + uri.getLastPathSegment());
                 break;
             default:
@@ -179,7 +185,7 @@ public class ConcreteBookingContentProvider extends ContentProvider {
                 _concreteBookingSource.createConcreteBooking(new ConcreteBooking(
                         contentValues.getAsByte(DbHelper.COLUMN_CONCRETEBOOKING_TYPE),
                         contentValues.getAsString(DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS),
-                        contentValues.getAsByte(DbHelper.COLUMN_CONCRETBOOKING_STATUSCHANGED),
+                        contentValues.getAsByte(DbHelper.COLUMN_CONCRETEBOOKING_STATUSCHANGED),
                         booking,
                         possibleBooking,
                         student
@@ -260,7 +266,14 @@ public class ConcreteBookingContentProvider extends ContentProvider {
     }
     //Metode der tjekker på, at jeg ikke tjekker efter kolonner der ikke eksistere
     private void checkColumns(String[] projection) {
-        String[] available = ConcreteBookingSource.ALL_COLUMNS;
+
+        String[] available = new String[ConcreteBookingSource.ALL_COLUMNS.length + 1];
+        for (int i = 0; i < ConcreteBookingSource.ALL_COLUMNS.length; i++)
+            available[i] = ConcreteBookingSource.ALL_COLUMNS[i];
+
+        available[ConcreteBookingSource.ALL_COLUMNS.length] =
+            DbHelper.TABLE_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID;
+
         if (projection != null) {
             List<String> requestedColumns = Arrays.asList(projection);
             List<String> availableColumns = Arrays.asList(available);
