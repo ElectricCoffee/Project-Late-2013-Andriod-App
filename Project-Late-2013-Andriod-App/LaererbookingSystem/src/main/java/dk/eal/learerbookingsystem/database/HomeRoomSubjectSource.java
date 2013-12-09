@@ -83,10 +83,26 @@ public class HomeRoomSubjectSource {
 
     public HomeroomSubject cursorToHomeRoomSubject(Cursor cursor) {
         HomeRoomSource homeRoomSource = new HomeRoomSource(_context);
-        HomeRoomClass homeRoom = homeRoomSource.getHomeRoomById(cursor.getLong(3));
+        HomeRoomClass homeRoom = null;
+        try {
+            homeRoomSource.open();
+            homeRoom = homeRoomSource.getHomeRoomById(cursor.getLong(3));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            homeRoomSource.close();
+        }
 
         SubjectSource subjectSource = new SubjectSource(_context);
-        Subject subject = subjectSource.getSubjectById(cursor.getLong(3));
+        Subject subject = null;
+        try {
+            subjectSource.open();
+            subject = subjectSource.getSubjectById(cursor.getLong(3));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            subjectSource.close();
+        }
 
         HomeroomSubject homeroomSubject = new HomeroomSubject(subject, homeRoom);
         homeroomSubject.setId(cursor.getLong(0));

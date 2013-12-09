@@ -9,6 +9,8 @@ public class PossibleBooking {
     private int _duration;
     private Booking _booking;
 
+    public PossibleBooking() { }
+
     public PossibleBooking(int duration, Booking booking) {
        _duration = duration;
         _booking = booking;

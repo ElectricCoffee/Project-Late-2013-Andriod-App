@@ -28,7 +28,6 @@ public class BookingActivity extends FragmentActivity implements LoaderManager.L
         setContentView(R.layout.activity_booking);
         _listView = (ListView) findViewById(R.id.bookingListView);
 
-
         fillData();
     }
 
@@ -44,10 +43,9 @@ public class BookingActivity extends FragmentActivity implements LoaderManager.L
         // Fields from the database (projection)
         // Must include the _id column for the adapter to work
         String[] from = new String[] {
-            ConcreteBookingContentProvider.ALIAS_SUBJECT + "." + DbHelper.COLUMN_SUBJECT_NAME,
-            ConcreteBookingContentProvider.ALIAS_BOOKING + "." + DbHelper.COLUMN_BOOKING_STARTTIME,
-            ConcreteBookingContentProvider.ALIAS_CONCRETEBOOKING + "."
-                + DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS };
+            DbHelper.COLUMN_SUBJECT_NAME,
+            DbHelper.COLUMN_BOOKING_STARTTIME,
+            DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS };
         // Fields on the UI to which we map
         int[] to = new int[] { R.id.subject, R.id.date, R.id.time };
 
@@ -75,9 +73,10 @@ public class BookingActivity extends FragmentActivity implements LoaderManager.L
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
             ConcreteBookingContentProvider.ALIAS_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID,
-            DbHelper.COLUMN_CONCRETEBOOKING_TYPE,
-            DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS,
-            DbHelper.COLUMN_CONCRETEBOOKING_STATUSCHANGED };
+            ConcreteBookingContentProvider.ALIAS_CONCRETEBOOKING + "." + DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS,
+            ConcreteBookingContentProvider.ALIAS_BOOKING + "." + DbHelper.COLUMN_BOOKING_STARTTIME,
+            ConcreteBookingContentProvider.ALIAS_SUBJECT + "." + DbHelper.COLUMN_SUBJECT_NAME
+        };
 
         CursorLoader cursorLoader = new CursorLoader(this,
             ConcreteBookingContentProvider.CONTENT_URI, projection, null, null, null);

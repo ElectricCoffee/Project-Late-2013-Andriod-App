@@ -33,7 +33,7 @@ public class ConcreteBookingSource {private Context _context;
     public ConcreteBookingSource(Context context) {
         _context = context;
         _dbHelper = new DbHelper(_context);
-        _iso8601format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        _iso8601format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
     public void open() throws SQLException {
@@ -95,13 +95,37 @@ public class ConcreteBookingSource {private Context _context;
     public ConcreteBooking cursorToConcreteBooking(Cursor cursor) {
 
         BookingSource bookingSource = new BookingSource(_context);
-        Booking booking = bookingSource.getBookingById(cursor.getLong(3));
+        Booking booking = null;
+        try {
+            bookingSource.open();
+            booking = bookingSource.getBookingById(cursor.getLong(3));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            bookingSource.close();
+        }
 
         PossibleBookingSource possibleBookingSource = new PossibleBookingSource(_context);
-        PossibleBooking possibleBooking = possibleBookingSource.getPossibleBookingById(cursor.getLong(3));
+        PossibleBooking possibleBooking = null;
+        try {
+            possibleBookingSource.open();
+            possibleBooking = possibleBookingSource.getPossibleBookingById(cursor.getLong(3));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            possibleBookingSource.close();
+        }
 
         StudentSource studentSource = new StudentSource(_context);
-        Student student = studentSource.getStudentById(cursor.getLong(3));
+        Student student = null;
+        try {
+            studentSource.open();
+            student = studentSource.getStudentById(cursor.getLong(3));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            studentSource.close();
+        }
 
         ConcreteBooking concreteBooking = new ConcreteBooking((byte)cursor.getInt(1), cursor.getString(2), (byte) cursor.getInt(3), booking, possibleBooking, student);
         possibleBooking.setId(cursor.getLong(0));

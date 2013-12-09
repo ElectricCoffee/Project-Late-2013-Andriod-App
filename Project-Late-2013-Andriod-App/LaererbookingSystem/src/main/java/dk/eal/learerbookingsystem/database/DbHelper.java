@@ -37,7 +37,7 @@ public class DbHelper extends SQLiteOpenHelper {
             COLUMN_STUDENT_APPROVED = "Godkendt";
 
     //Table teacher
-    public static final String TABLE_TEACHER = "Lærer";
+    public static final String TABLE_TEACHER = "Laerer";
 
     //Table administrator
     public static final String
@@ -60,8 +60,8 @@ public class DbHelper extends SQLiteOpenHelper {
     //Table booking
     public static final String
             TABLE_BOOKING = "Booking",
-            COLUMN_BOOKING_STARTTIME = "Start Tid",
-            COLUMN_BOOKING_ENDTIME = "Slut Tid";
+            COLUMN_BOOKING_STARTTIME = "StartTid",
+            COLUMN_BOOKING_ENDTIME = "SlutTid";
 
     //Table possiblebooking
     public static final String
@@ -81,7 +81,7 @@ public class DbHelper extends SQLiteOpenHelper {
         COLUMN_FK_NAME_ID = "Navn" + COLUMN_ID,
         COLUMN_FK_USER_ID = "Bruger" + COLUMN_ID,
         COLUMN_FK_SEMESTER_ID = "Semester" + COLUMN_ID,
-        COLUMN_FK_TEACHER_ID = "Lærer" + COLUMN_ID,
+        COLUMN_FK_TEACHER_ID = "Laerer" + COLUMN_ID,
         COLUMN_FK_SUBJECT_ID = "Fag" + COLUMN_ID,
         COLUMN_FK_BOOKING_ID = "Booking" + COLUMN_ID,
         COLUMN_FK_POSSIBLEBOOKING_ID = "MuligBooking" + COLUMN_ID,

@@ -10,9 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import dk.eal.learerbookingsystem.model.Booking;
-import dk.eal.learerbookingsystem.model.Name;
 import dk.eal.learerbookingsystem.model.Subject;
-import dk.eal.learerbookingsystem.model.User;
 
 /**
  * Created by Trine on 29-11-13.
@@ -28,12 +26,12 @@ public class BookingSource {
             DbHelper.COLUMN_BOOKING_ENDTIME,
             DbHelper.COLUMN_FK_SUBJECT_ID
     };
-    private SimpleDateFormat _iso8601format;
+    private SimpleDateFormat _iso8601ishformat;
 
     public BookingSource(Context context) {
         _context = context;
         _dbHelper = new DbHelper(_context);
-        _iso8601format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        _iso8601ishformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
     public void open() throws SQLException {
@@ -52,8 +50,8 @@ public class BookingSource {
         if (!subjectSource.subjectExists(booking.getSubject()))
             booking.setSubject(subjectSource.createSubject(booking.getSubject()));
 
-        values.put(DbHelper.COLUMN_BOOKING_STARTTIME, _iso8601format.format(booking.getStartDate()));
-        values.put(DbHelper.COLUMN_BOOKING_ENDTIME, _iso8601format.format(booking.getEndDate()));
+        values.put(DbHelper.COLUMN_BOOKING_STARTTIME, _iso8601ishformat.format(booking.getStartDate()));
+        values.put(DbHelper.COLUMN_BOOKING_ENDTIME, _iso8601ishformat.format(booking.getEndDate()));
         values.put(DbHelper.COLUMN_FK_SUBJECT_ID, booking.getSubject().getId());
 
         long insertId = _database.insert(DbHelper.TABLE_USER, null,
@@ -83,13 +81,21 @@ public class BookingSource {
 
     public Booking cursorToBooking(Cursor cursor) {
         SubjectSource subjectSource = new SubjectSource(_context);
-        Subject subject = subjectSource.getSubjectById(cursor.getLong(3));
+        Subject subject = null;
+        try {
+            subjectSource.open();
+            subject = subjectSource.getSubjectById(cursor.getLong(3));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            subjectSource.close();
+        }
 
         Booking booking = null;
         try {
-            booking = new Booking(_iso8601format.parse(cursor.getString(1)), _iso8601format.parse(cursor.getString(2)), subject);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            booking = new Booking(_iso8601ishformat.parse(cursor.getString(1)), _iso8601ishformat.parse(cursor.getString(2)), subject);
+        } catch (ParseException pe) {
+            pe.printStackTrace();
         }
         booking.setId(cursor.getLong(0));
         return booking;

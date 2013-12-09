@@ -41,6 +41,7 @@ public class BaseActivity <TView extends IView, TModel extends BaseModel> extend
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        _context = this;
         startReceiver();
     }
 

@@ -70,7 +70,7 @@ public class ConcreteBookingContentProvider extends ContentProvider {
     public boolean onCreate() {
         _database = new DbHelper(getContext()); //Opretter forbindelse til databasen
         _concreteBookingSource = new ConcreteBookingSource(getContext());
-        _iso8601format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        _iso8601format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return false;
     }
 
@@ -113,7 +113,7 @@ public class ConcreteBookingContentProvider extends ContentProvider {
 
         SQLiteDatabase db = _database.getWritableDatabase(); //Opretter databasen som en skrivebar database
         Cursor cursor = queryBuilder.query(
-                db, projection, selection, selectionArgs, null, null, sortOrder);
+            db, projection, selection, selectionArgs, null, null, sortOrder);
         // make sure that potential listeners are getting notified
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -278,13 +278,14 @@ public class ConcreteBookingContentProvider extends ContentProvider {
     }
     //Metode der tjekker på, at jeg ikke tjekker efter kolonner der ikke eksistere
     private void checkColumns(String[] projection) {
-
-        String[] available = new String[ConcreteBookingSource.ALL_COLUMNS.length + 1];
-        for (int i = 0; i < ConcreteBookingSource.ALL_COLUMNS.length; i++)
-            available[i] = ConcreteBookingSource.ALL_COLUMNS[i];
-
-        available[ConcreteBookingSource.ALL_COLUMNS.length] =
-            ALIAS_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID;
+        String[] available = {
+            ALIAS_CONCRETEBOOKING + "." + DbHelper.COLUMN_ID,
+            ALIAS_CONCRETEBOOKING + "." + DbHelper.COLUMN_CONCRETEBOOKING_TYPE,
+            ALIAS_CONCRETEBOOKING + "." + DbHelper.COLUMN_CONCRETEBOOKING_COMMENTS,
+            ALIAS_CONCRETEBOOKING + "." + DbHelper.COLUMN_CONCRETEBOOKING_STATUSCHANGED,
+            ALIAS_BOOKING + "." + DbHelper.COLUMN_BOOKING_STARTTIME,
+            ALIAS_SUBJECT + "." + DbHelper.COLUMN_SUBJECT_NAME
+        };
 
         if (projection != null) {
             List<String> requestedColumns = Arrays.asList(projection);

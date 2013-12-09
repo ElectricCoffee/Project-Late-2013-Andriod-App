@@ -59,7 +59,7 @@ public class PossibleBookingContentProvider extends ContentProvider {
     public boolean onCreate() {
         _database = new DbHelper(getContext()); //Opretter forbindelse til databasen
         _possibleBookingSource = new PossibleBookingSource(getContext());
-        _iso8601format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        _iso8601format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return false;
     }
 

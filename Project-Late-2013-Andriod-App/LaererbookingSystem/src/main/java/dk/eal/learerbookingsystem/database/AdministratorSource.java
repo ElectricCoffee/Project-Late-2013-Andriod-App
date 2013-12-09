@@ -74,7 +74,15 @@ public class AdministratorSource {
 
     public Administrator cursorToAdministrator(Cursor cursor) {
         UserSource userSource = new UserSource(_context);
-        User user = userSource.getUserById(cursor.getLong(3));
+        User user = null;
+        try {
+            userSource.open();
+            user = userSource.getUserById(cursor.getLong(3));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            userSource.close();
+        }
 
         Administrator administrator = new Administrator(user.getUsername(), user.getPassword(), user.getName());
         administrator.setUserId(user.getId());

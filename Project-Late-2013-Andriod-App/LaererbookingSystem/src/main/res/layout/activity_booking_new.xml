@@ -19,7 +19,6 @@
         android:layout_height="48dp"
           android:spinnerMode="dropdown"
           style="@style/Widget.AppCompat.Light.Base.DropDownItem.Spinner"
-          android:entries="@array/spinner_subjects"
           android:layout_gravity="left|center_vertical"/>
 
         <Spinner
@@ -28,7 +27,6 @@
             android:layout_height="48dp"
             android:spinnerMode="dropdown"
             style="@style/Widget.AppCompat.Light.Base.DropDownItem.Spinner"
-            android:entries="@array/spinner_subjects"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/activity_vertical_margin" />
 

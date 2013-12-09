@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import dk.eal.learerbookingsystem.model.Semester;
 import dk.eal.learerbookingsystem.model.Subject;
@@ -61,6 +63,23 @@ public class SubjectSource {
         return getSubjectById(insertId); //Retunere den nye kommentar
     }
 
+    public List<Subject> getAll() {
+        List<Subject> subjects = new ArrayList<Subject>(); //Opretter en liste af kommentar
+
+        Cursor cursor = _database.query(DbHelper.TABLE_SUBJECT, //null = select*
+            _allColumns, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) { //Når man ikke er nået til slutningen af query resultaterne
+            Subject subject = cursorToSubject(cursor);
+            subjects.add(subject);
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+        return subjects;
+    }
+
     public boolean subjectExists(Subject subject) {
         Cursor cursor = _database.query(DbHelper.TABLE_SUBJECT, //Opretter en cursor
             _allColumns, DbHelper.COLUMN_ID + " = " + subject.getId(), null,
@@ -82,10 +101,26 @@ public class SubjectSource {
 
     public Subject cursorToSubject(Cursor cursor) {
         SemesterSource semesterSource = new SemesterSource(_context);
-        Semester semester = semesterSource.getSemesterById(cursor.getLong(3));
+        Semester semester = null;
+        try {
+            semesterSource.open();
+            semester = semesterSource.getSemesterById(cursor.getLong(2));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            semesterSource.close();
+        }
 
         TeacherSource teacherSource = new TeacherSource(_context);
-        Teacher teacher = teacherSource.getTeacherById(cursor.getLong(3));
+        Teacher teacher = null;
+        try {
+            teacherSource.open();
+            teacher = teacherSource.getTeacherById(cursor.getLong(3));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            teacherSource.close();
+        }
 
         Subject subject = new Subject(cursor.getString(1), semester, teacher);
         subject.setId(cursor.getLong(0));

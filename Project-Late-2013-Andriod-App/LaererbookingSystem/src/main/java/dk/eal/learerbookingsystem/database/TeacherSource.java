@@ -75,8 +75,15 @@ public class TeacherSource {
 
     public Teacher cursorToTeacher(Cursor cursor) {
         UserSource userSource = new UserSource(_context);
-        User user = userSource.getUserById(cursor.getLong(3));
-
+        User user = null;
+        try {
+            userSource.open();
+            user = userSource.getUserById(cursor.getLong(1));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            userSource.close();
+        }
         Teacher teacher = new Teacher(user.getUsername(), user.getPassword(), user.getName());
         teacher.setUserId(user.getId());
         return teacher;

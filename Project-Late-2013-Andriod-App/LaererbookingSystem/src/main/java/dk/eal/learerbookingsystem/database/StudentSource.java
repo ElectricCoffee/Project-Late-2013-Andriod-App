@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import dk.eal.learerbookingsystem.model.HomeRoomClass;
 import dk.eal.learerbookingsystem.model.Semester;
@@ -67,6 +69,23 @@ public class StudentSource {
         return getStudentById(insertId); //Retunere den nye kommentar
     }
 
+    public List<Student> getAll() {
+        List<Student> students = new ArrayList<Student>(); //Opretter en liste af kommentar
+
+        Cursor cursor = _database.query(DbHelper.TABLE_STUDENT, //null = select*
+            _allColumns, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) { //Når man ikke er nået til slutningen af query resultaterne
+            Student student = cursorToStudent(cursor);
+            students.add(student);
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+        return students;
+    }
+
     public boolean studentExists(Student student) {
         Cursor cursor = _database.query(DbHelper.TABLE_STUDENT, //Opretter en cursor
                 _allColumns, DbHelper.COLUMN_ID + " = " + student.getId(), null,
@@ -88,10 +107,26 @@ public class StudentSource {
 
     public Student cursorToStudent(Cursor cursor) {
         UserSource userSource = new UserSource(_context);
-        User user = userSource.getUserById(cursor.getLong(3));
+        User user = null;
+        try {
+            userSource.open();
+            user = userSource.getUserById(cursor.getLong(3));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            userSource.close();
+        }
 
         HomeRoomSource homeRoomSource = new HomeRoomSource(_context);
-        HomeRoomClass homeRoomClass = homeRoomSource.getHomeRoomById(cursor.getLong(3));
+        HomeRoomClass homeRoomClass = null;
+        try {
+            homeRoomSource.open();
+            homeRoomClass = homeRoomSource.getHomeRoomById(cursor.getLong(3));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            homeRoomSource.close();
+        }
 
         Student student = new Student(user.getUsername(), user.getPassword(),(byte)cursor.getInt(1), homeRoomClass, user.getName());
         student.setId(cursor.getLong(0));

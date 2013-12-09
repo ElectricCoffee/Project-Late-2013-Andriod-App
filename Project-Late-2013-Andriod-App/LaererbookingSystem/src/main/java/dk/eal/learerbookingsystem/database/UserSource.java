@@ -20,7 +20,8 @@ public class UserSource {
     private String[] _allColumns = {
         DbHelper.COLUMN_ID,
         DbHelper.COLUMN_USER_USERNAME,
-        DbHelper.COLUMN_USER_PASSWORD
+        DbHelper.COLUMN_USER_PASSWORD,
+        DbHelper.COLUMN_FK_NAME_ID
     };
 
     public UserSource(Context context) {
@@ -75,7 +76,15 @@ public class UserSource {
 
     public User cursorToUser(Cursor cursor) {
         NameSource nameSource = new NameSource(_context);
-        Name name = nameSource.getNameById(cursor.getLong(3));
+        Name name = null;
+        try {
+            nameSource.open();
+            name = nameSource.getNameById(cursor.getLong(3));
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        } finally {
+            nameSource.close();
+        }
 
         User user = new User(cursor.getString(1), cursor.getString(2), name);
         user.setId(cursor.getLong(0));
